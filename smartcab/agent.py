@@ -35,14 +35,15 @@ class LearningAgent(Agent):
         ## TO DO ##
         ###########
         # Update epsilon using a decay function of your choice
-        self.step = self.step + 1
-        self.epsilon = math.cos(0.001*self.step)
         #self.epsilon = self.epsilon - 0.05
         # Update additional class parameters as needed
         # If 'testing' is True, set epsilon and alpha to 0
         if testing:
             self.epsilon = 0
             self.alpha = 0
+        else
+            self.step = self.step + 1
+            self.epsilon = math.cos(0.001*self.step)
 
         return None
 
@@ -115,12 +116,7 @@ class LearningAgent(Agent):
             action = random.choice(self.valid_actions)
         # Otherwise, choose an action with the highest Q-value for the current state
         else:
-            maxQ = self.get_maxQ(state)
-            actions = []
-            for a in self.valid_actions:
-                if self.Q[state][a] == maxQ:
-                    actions.append(a)
-            action = random.choice(actions)      
+            action = random.choice([action for action, Qval in self.Q[state].items() if Qval == get_max_Q(state)])      
         return action
 
 
@@ -187,7 +183,7 @@ def run():
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
     #sim = Simulator(env, update_delay=0.01, log_metrics=True, display=False)
-    sim = Simulator(env, update_delay=0.01, log_metrics=True, optimized=True, display=True)
+    sim = Simulator(env, update_delay=0.01, log_metrics=True, optimized=True, display=False)
     
     ##############
     # Run the simulator
